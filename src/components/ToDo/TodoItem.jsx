@@ -5,6 +5,8 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import FormDialog from "../FormDialog";
 
 const styles = {
   card: {
@@ -22,6 +24,17 @@ class ToDoItem extends React.Component {
       taskName: props.taskName,
       taskDescription: props.taskDescription
     };
+
+    this.handleTaskTitle = title => {
+      this.setState({ taskName: title });
+    };
+
+    this.handleDescription = description => {
+      this.setState({ taskDescription: description });
+    };
+
+    this.handleTaskTitle = this.handleTaskTitle.bind(this);
+    this.handleDescription = this.handleDescription.bind(this);
   }
 
   render() {
@@ -32,6 +45,10 @@ class ToDoItem extends React.Component {
             <h2 style={styles.centered}>{this.state.taskName}</h2>
             <Typography component="p">{this.state.taskDescription}</Typography>
           </CardContent>
+          <FormDialog
+            handleTitle={this.handleTaskTitle}
+            handleDescription={this.handleDescription}
+          />
         </Card>
       </div>
     );

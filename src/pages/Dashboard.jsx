@@ -34,25 +34,34 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = { tasks: [], title: "", description: "" };
+
+    this.newTask = this.newTask.bind(this);
   }
 
   newTask(props) {
     let arr = this.state.tasks;
-    arr.push({ id: 2, title: "", description: "" });
-    this.SetState({ tasks: arr });
+    arr.push({ id: 2, title: "Test", description: "Test" });
+    this.setState({ tasks: arr });
   }
 
   render() {
     return (
       <div>
-        <Header />
+        <Header newTask={this.newTask} />
         <div>
-          <ToDoItem taskName="Homework" />
+          {this.state.tasks.length > 0 && <Item tasks={this.state.tasks} />}
         </div>
       </div>
     );
   }
 }
+
+// Modern syntax >= React 16.2.0
+const Item = props => {
+  return props.tasks.map(p => (
+    <ToDoItem key={p.title} title={p.title} description={p.description} />
+  ));
+};
 
 const Header = props => {
   return (
@@ -69,7 +78,9 @@ const Header = props => {
           <Typography variant="h6" color="inherit" style={styles.grow}>
             React Todo App
           </Typography>
-          <Button color="inherit">Add New Task</Button>
+          <Button color="inherit" onClick={props.newTask}>
+            Add New Task
+          </Button>
         </Toolbar>
       </AppBar>
     </div>
